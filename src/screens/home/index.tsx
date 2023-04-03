@@ -8,7 +8,11 @@ import useAPI from "../../hooks/useAPI";
 import ErrorScreen from "../../components/ErrorScreen";
 
 const Home: React.FC = () => {
-  const { data, isLoading, isError } = useAPI("/categories");
+  const { get, data, isLoading, isError } = useAPI();
+
+  React.useEffect(() => {
+    get("/categories");
+  }, []);
 
   if (isLoading) return <FullScreenLoader />;
 
@@ -17,7 +21,7 @@ const Home: React.FC = () => {
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        data={data}
+        data={data ?? []}
         renderItem={({ item }: { item: Category }) => (
           <CategoryItem title={item.name} id={item.id} />
         )}

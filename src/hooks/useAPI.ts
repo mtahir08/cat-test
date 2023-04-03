@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { API_KEY, BASE_URL } from "@env";
 
-const useAPI = (endpoint, options = {}, headers = {}) => {
+const useAPI = (headers = {}) => {
   const [data, setData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const requestOptions = {
     headers: {
@@ -12,25 +12,37 @@ const useAPI = (endpoint, options = {}, headers = {}) => {
       "x-api-key": API_KEY,
       ...headers,
     },
-    ...options,
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      try {
-        const response = await fetch(`${BASE_URL}${endpoint}`, requestOptions);
-        const result = await response.json();
-        setData(result);
-      } catch (error) {
-        setIsError(true);
-      }
-      setIsLoading(false);
-    };
-    fetchData();
-  }, []);
+  const get = async (endpoint) => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(`${BASE_URL}${endpoint}`, requestOptions);
+      const result = await response.json();
+      setData(result);
+    } catch (error) {
+      setIsError(true);
+    }
+    setIsLoading(false);
+  };
 
-  return { data, isLoading, isError };
+  const post = async (endpoint, body) => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(`${BASE_URL}${endpoint}`, {
+        ...requestOptions,
+        method: "POST",
+        body,
+      });
+      const result = await response.json();
+      setData(result);
+    } catch (error) {
+      setIsError(true);
+    }
+    setIsLoading(false);
+  };
+
+  return { get, post, data, isLoading, isError };
 };
 
 export default useAPI;
