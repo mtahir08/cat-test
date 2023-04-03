@@ -1,6 +1,6 @@
 import { RouteProp, useRoute } from "@react-navigation/native";
 import React from "react";
-import { View, FlatList } from "react-native";
+import { ScrollView } from "react-native";
 import CatDetails from "../../components/CatDetails";
 import ErrorScreen from "../../components/ErrorScreen";
 import FullScreenLoader from "../../components/FullScreenLoader";
@@ -20,15 +20,11 @@ const Listings: React.FC = () => {
   if (isError) return <ErrorScreen />;
 
   return (
-    <View style={styles.container}>
-      <FlatList
-        data={data}
-        numColumns={2}
-        renderItem={({ item }) => <CatDetails uri={item.url} />}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.list}
-      />
-    </View>
+    <ScrollView style={{ flex: 1 }} contentContainerStyle={styles.container}>
+      {data?.map((item) => (
+        <CatDetails uri={item.url} key={item.id} />
+      ))}
+    </ScrollView>
   );
 };
 

@@ -2,10 +2,10 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    marginTop: 25,
+    flexGrow: 1,
     flexDirection: "row",
-    flexWrap: "nowrap",
+    flexWrap: "wrap",
+    justifyContent: "space-around",
   },
   heading: {
     textAlign: "center",
