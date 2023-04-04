@@ -10,6 +10,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack/lib/ty
 import { RouteParams } from "../types/routes";
 import { ROUTE_NAMES } from "../constants/routes";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Toast from "react-native-toast-message";
 
 type AuthContextType = {
   accessToken: string;
@@ -61,7 +62,11 @@ const AuthProvider: React.FC<props> = (props) => {
       setUserInfo(userInfo);
       navigation.navigate(ROUTE_NAMES.HOME);
     } catch (e) {
-      console.log("ERROR HERE: ", { e });
+      Toast.show({
+        type: "error",
+        text1: "Error logging in",
+        text2: "Please retry",
+      });
     }
   };
 

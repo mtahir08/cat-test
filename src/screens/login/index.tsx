@@ -22,16 +22,10 @@ const Login: React.FC = () => {
     <View style={styles.container}>
       <Image source={Cat} style={styles.image} />
       <Button
-        title="LOGIN"
+        title="LOGIN OR SIGNUP"
         onPress={onPressLogin}
         containerStyles={styles.loginBtn}
         disabled={isLoggingIn}
-      />
-      <Button
-        title="SIGNUP"
-        onPress={() => {}}
-        type="secondary"
-        containerStyles={styles.signupBtn}
       />
     </View>
   );
