@@ -8,8 +8,6 @@ import useAPI from "../../hooks/useAPI";
 import { shareURL } from "../../services";
 
 import Button from "../Button";
-import ErrorScreen from "../ErrorScreen";
-import FullScreenLoader from "../FullScreenLoader";
 
 import styles from "./styles";
 
