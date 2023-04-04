@@ -1,9 +1,12 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
 import { ROUTE_NAMES } from "../constants/routes";
-import Listings from "../screens/Listings";
+
 import Home from "../screens/home";
 import Login from "../screens/login";
+import Details from "../screens/details";
+import Listings from "../screens/Listings";
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +26,7 @@ const NavigationStack = () => {
         }}
       />
       <Stack.Screen name={ROUTE_NAMES.LISTINGS} component={Listings} />
+      <Stack.Screen name={ROUTE_NAMES.DETAILS} component={Details} />
     </Stack.Navigator>
   );
 };
