@@ -1,11 +1,15 @@
 import React from "react";
 import { FlatList, SafeAreaView } from "react-native";
-import CategoryItem from "../../components/CategoryItem";
+
 import { Category } from "../../types";
-import FullScreenLoader from "../../components/FullScreenLoader";
-import styles from "./styles";
-import useAPI from "../../hooks/useAPI";
+
 import ErrorScreen from "../../components/ErrorScreen";
+import CategoryItem from "../../components/CategoryItem";
+import FullScreenLoader from "../../components/FullScreenLoader";
+
+import useAPI from "../../hooks/useAPI";
+
+import styles from "./styles";
 
 const Home: React.FC = () => {
   const { get, data, isLoading, isError } = useAPI();

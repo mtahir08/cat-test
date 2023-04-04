@@ -6,8 +6,9 @@ import useAPI from "../../hooks/useAPI";
 
 import CatCard from "../../components/CatCard";
 import ErrorScreen from "../../components/ErrorScreen";
-import { ROUTE_NAMES } from "../../constants/routes";
 import FullScreenLoader from "../../components/FullScreenLoader";
+
+import { ROUTE_NAMES } from "../../constants/routes";
 
 import { RouteParams } from "../../types/routes";
 
@@ -19,7 +20,7 @@ const Listings: React.FC = () => {
 
   React.useEffect(() => {
     get(`/images/search/?limit=10&category_ids=${route.params.id}`);
-  }, [route]);
+  }, [route.params.id]);
 
   if (isLoading) return <FullScreenLoader />;
 

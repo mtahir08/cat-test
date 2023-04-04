@@ -1,10 +1,14 @@
 import React from "react";
-import * as WebBrowser from "expo-web-browser";
 import { View, Image } from "react-native";
+import * as WebBrowser from "expo-web-browser";
+
 import Cat from "../../assets/cat-login.png";
+
 import Button from "../../components/Button";
-import styles from "./styles";
+
 import { AuthContext } from "../../context/AuthContext";
+
+import styles from "./styles";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -24,8 +28,8 @@ const Login: React.FC = () => {
       <Button
         title="LOGIN OR SIGNUP"
         onPress={onPressLogin}
-        containerStyles={styles.loginBtn}
         disabled={isLoggingIn}
+        containerStyles={styles.loginBtn}
       />
     </View>
   );

@@ -6,15 +6,16 @@ import {
   ViewStyle,
   TouchableOpacity,
 } from "react-native";
+
 import styles from "./styles";
 
 type Props = {
-  onPress: () => void;
   title: string;
+  disabled?: boolean;
+  onPress: () => void;
   type?: "primary" | "secondary";
   titleStyle?: StyleProp<TextStyle>;
   containerStyles?: StyleProp<ViewStyle>;
-  disabled?: boolean;
 };
 
 const Button: React.FC<Props> = ({
