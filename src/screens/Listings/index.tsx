@@ -4,7 +4,7 @@ import { RouteProp, useRoute } from "@react-navigation/native";
 
 import useAPI from "../../hooks/useAPI";
 
-import CatDetails from "../../components/CatCard";
+import CatCard from "../../components/CatCard";
 import ErrorScreen from "../../components/ErrorScreen";
 import { ROUTE_NAMES } from "../../constants/routes";
 import FullScreenLoader from "../../components/FullScreenLoader";
@@ -28,7 +28,7 @@ const Listings: React.FC = () => {
   return (
     <ScrollView style={{ flex: 1 }} contentContainerStyle={styles.container}>
       {data?.map((item) => (
-        <CatDetails uri={item.url} id={item?.id} key={item.id} />
+        <CatCard uri={item.url} id={item?.id} key={item.id} />
       ))}
     </ScrollView>
   );

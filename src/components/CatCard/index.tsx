@@ -1,8 +1,8 @@
 import React from "react";
-import * as Sharing from "expo-sharing";
 import { View, Image } from "react-native";
 
 import useAPI from "../../hooks/useAPI";
+import { shareURL } from "../../services";
 
 import Button from "../Button";
 import ErrorScreen from "../ErrorScreen";
@@ -25,16 +25,6 @@ const CatCard: React.FC<Props> = ({ id, uri }) => {
     });
   }, [data, isLoading, isError]);
 
-  const shareUrl = async () => {
-    Sharing.shareAsync(uri)
-      .then((result) => {
-        console.log({ result });
-      })
-      .catch((error) => {
-        console.error({ error });
-      });
-  };
-
   if (isLoading) return <FullScreenLoader />;
 
   if (isError) return <ErrorScreen />;
@@ -50,7 +40,7 @@ const CatCard: React.FC<Props> = ({ id, uri }) => {
       <Button
         title="Share"
         type="secondary"
-        onPress={shareUrl}
+        onPress={() => shareURL(uri)}
         containerStyles={styles.btn}
       />
     </View>
