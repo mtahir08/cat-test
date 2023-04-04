@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React from "react";
 import { TouchableOpacity, Text } from "react-native";
-import { AUTH_ROUTE_NAMES } from "../../constants/routes";
+import { ROUTE_NAMES } from "../../constants/routes";
 import { RouteParams } from "../../types/routes";
 import styles from "./styles";
 
@@ -14,7 +14,7 @@ type Props = {
 const CategoryItem: React.FC<Props> = ({ title, id }) => {
   const navigation = useNavigation<NativeStackNavigationProp<RouteParams>>();
   const onPress = () => {
-    navigation.navigate(AUTH_ROUTE_NAMES.LISTINGS, {
+    navigation.navigate(ROUTE_NAMES.LISTINGS, {
       id,
     });
   };

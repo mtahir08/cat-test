@@ -5,6 +5,10 @@ import { AuthRequestPromptOptions } from "expo-auth-session/build/AuthRequest.ty
 import { AuthSessionResult } from "expo-auth-session/build/AuthSession.types";
 import { UserInfo } from "../types";
 import { WEB_CLIENT_ID, IOS_CLIENT_ID, ANDROID_CLIENT_ID } from "@env";
+import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack/lib/typescript/src/types";
+import { RouteParams } from "../types/routes";
+import { ROUTE_NAMES } from "../constants/routes";
 
 type AuthContextType = {
   accessToken: string;
@@ -37,6 +41,7 @@ WebBrowser.maybeCompleteAuthSession();
 const AuthProvider: React.FC<props> = (props) => {
   const [accessToken, setAccessToken] = React.useState("");
   const [userInfo, setUserInfo] = React.useState(null);
+  const navigation = useNavigation<NativeStackNavigationProp<RouteParams>>();
 
   const [_request, loginResponse, onLogin] = Google.useAuthRequest({
     clientId: WEB_CLIENT_ID,
@@ -53,6 +58,7 @@ const AuthProvider: React.FC<props> = (props) => {
       });
       const userInfo = await res.json();
       setUserInfo(userInfo);
+      navigation.navigate(ROUTE_NAMES.HOME);
     } catch (e) {
       console.log("ERROR HERE: ", { e });
     }

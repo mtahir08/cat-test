@@ -6,7 +6,7 @@ import useAPI from "../../hooks/useAPI";
 
 import CatDetails from "../../components/CatCard";
 import ErrorScreen from "../../components/ErrorScreen";
-import { AUTH_ROUTE_NAMES } from "../../constants/routes";
+import { ROUTE_NAMES } from "../../constants/routes";
 import FullScreenLoader from "../../components/FullScreenLoader";
 
 import { RouteParams } from "../../types/routes";
@@ -14,7 +14,7 @@ import { RouteParams } from "../../types/routes";
 import styles from "./styles";
 
 const Listings: React.FC = () => {
-  const route = useRoute<RouteProp<RouteParams, AUTH_ROUTE_NAMES.LISTINGS>>();
+  const route = useRoute<RouteProp<RouteParams, ROUTE_NAMES.LISTINGS>>();
   const { get, data, isLoading, isError } = useAPI();
 
   React.useEffect(() => {
