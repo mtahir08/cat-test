@@ -72,8 +72,10 @@ const AuthProvider: React.FC<props> = (props) => {
 
   const checkLoginState = async () => {
     const accessToken = await AsyncStorage.getItem("accessToken");
-    if (accessToken) navigation.navigate(ROUTE_NAMES.HOME);
-    else navigation.navigate(ROUTE_NAMES.LOGIN);
+    if (accessToken) {
+      await fetchUserInfo(accessToken)
+      navigation.navigate(ROUTE_NAMES.HOME);
+    } else navigation.navigate(ROUTE_NAMES.LOGIN);
   };
 
   React.useEffect(() => {

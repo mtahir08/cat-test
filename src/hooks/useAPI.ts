@@ -32,7 +32,7 @@ const useAPI = (headers = {}) => {
       const response = await fetch(`${BASE_URL}${endpoint}`, {
         ...requestOptions,
         method: "POST",
-        body,
+        body: JSON.stringify(body),
       });
       const result = await response.json();
       setData(result);
