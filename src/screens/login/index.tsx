@@ -1,17 +1,21 @@
 import React from "react";
+import * as WebBrowser from "expo-web-browser";
 import { View, Image } from "react-native";
 import Cat from "../../assets/cat-login.png";
 import Button from "../../components/Button";
 import styles from "./styles";
-import { useNavigation } from "@react-navigation/native";
-import { AUTH_ROUTE_NAMES } from "../../constants/routes";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RouteParams } from "../../types/routes";
+import { AuthContext } from "../../context/AuthContext";
+
+WebBrowser.maybeCompleteAuthSession();
 
 const Login: React.FC = () => {
-  const navigation = useNavigation<NativeStackNavigationProp<RouteParams>>();
-  const onPressLogin = () => {
-    navigation.navigate(AUTH_ROUTE_NAMES.HOME);
+  const { onLogin } = React.useContext(AuthContext);
+  const [isLoggingIn, setIsLoggingIn] = React.useState(false);
+
+  const onPressLogin = async () => {
+    setIsLoggingIn(true);
+    await onLogin();
+    setIsLoggingIn(false);
   };
 
   return (
@@ -21,6 +25,7 @@ const Login: React.FC = () => {
         title="LOGIN"
         onPress={onPressLogin}
         containerStyles={styles.loginBtn}
+        disabled={isLoggingIn}
       />
       <Button
         title="SIGNUP"

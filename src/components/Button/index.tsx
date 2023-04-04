@@ -14,6 +14,7 @@ type Props = {
   type?: "primary" | "secondary";
   titleStyle?: StyleProp<TextStyle>;
   containerStyles?: StyleProp<ViewStyle>;
+  disabled?: boolean;
 };
 
 const Button: React.FC<Props> = ({
@@ -22,9 +23,11 @@ const Button: React.FC<Props> = ({
   type = "primary",
   titleStyle = {},
   containerStyles = {},
+  disabled = false,
 }) => {
   return (
     <TouchableOpacity
+      disabled={disabled}
       style={[
         styles.container,
         type === "primary" ? styles.primaryBtn : styles.secondaryBtn,
