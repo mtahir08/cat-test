@@ -9,6 +9,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack/lib/typescript/src/types";
 import { RouteParams } from "../types/routes";
 import { ROUTE_NAMES } from "../constants/routes";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type AuthContextType = {
   accessToken: string;
@@ -64,12 +65,26 @@ const AuthProvider: React.FC<props> = (props) => {
     }
   };
 
+  const checkLoginState = async () => {
+    const accessToken = await AsyncStorage.getItem("accessToken");
+    if (accessToken) navigation.navigate(ROUTE_NAMES.HOME);
+    else navigation.navigate(ROUTE_NAMES.LOGIN);
+  };
+
   React.useEffect(() => {
-    if (loginResponse && loginResponse.type === "success") {
+    if (loginResponse?.type === "success") {
       fetchUserInfo(loginResponse.authentication?.accessToken);
       setAccessToken(loginResponse.authentication?.accessToken);
+      AsyncStorage.setItem(
+        "accessToken",
+        loginResponse.authentication?.accessToken
+      );
     }
   }, [loginResponse]);
+
+  React.useEffect(() => {
+    checkLoginState();
+  }, []);
 
   const contextValues = {
     onLogin,
