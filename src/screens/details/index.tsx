@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView } from "react-native";
+import { ScrollView, Image, Text, View } from "react-native";
 import { RouteProp, useRoute } from "@react-navigation/native";
 
 import useAPI from "../../hooks/useAPI";
@@ -21,17 +21,19 @@ const Listings: React.FC = () => {
     get(`/images/${route.params.id}/analysis`);
   }, [route.params.id]);
 
-  console.log({ data, isError });
-
   if (isLoading) return <FullScreenLoader />;
 
   if (isError) return <ErrorScreen />;
-
   return (
-    <ScrollView
-      style={{ flex: 1 }}
-      contentContainerStyle={styles.container}
-    ></ScrollView>
+    <ScrollView contentContainerStyle={styles.container}>
+      <Image source={{ uri: route.params.uri }} style={styles.img} />
+      <View style={styles.labelsContainer}>
+        {data &&
+          data[0]?.labels?.map((item) => {
+            return <Text style={styles.label}>{item.Name}</Text>;
+          })}
+      </View>
+    </ScrollView>
   );
 };
 

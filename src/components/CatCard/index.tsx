@@ -30,7 +30,7 @@ const CatCard: React.FC<Props> = ({ id, uri }) => {
   const { userInfo } = React.useContext(AuthContext);
 
   const onPress = () => {
-    navigation.navigate(ROUTE_NAMES.DETAILS, { id });
+    navigation.navigate(ROUTE_NAMES.DETAILS, { id, uri });
   };
 
   const markFavourite = React.useCallback(() => {
