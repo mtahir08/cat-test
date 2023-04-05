@@ -26,7 +26,7 @@ const useAPI = (headers = {}) => {
     setIsLoading(false);
   };
 
-  const post = async (endpoint, body) => {
+  const post = async (endpoint, body, resData = {}) => {
     setIsLoading(true);
     try {
       const response = await fetch(`${BASE_URL}${endpoint}`, {
@@ -35,7 +35,7 @@ const useAPI = (headers = {}) => {
         body: JSON.stringify(body),
       });
       const result = await response.json();
-      setData(result);
+      setData({ ...result, ...resData });
     } catch (error) {
       setIsError(true);
     }

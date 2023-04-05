@@ -42,10 +42,16 @@ const FavoritesProvider: React.FC<props> = (props) => {
   } = useAPI("/favourites/:favourite_id");
 
   const markFavourite = (id: string) => {
-    addFavorite("/favourites", {
-      image_id: id,
-      sub_id: userInfo.id,
-    });
+    addFavorite(
+      "/favourites",
+      {
+        image_id: id,
+        sub_id: userInfo.id,
+      },
+      {
+        image_id: id,
+      }
+    );
   };
 
   const unmarkFavourite = (favoriteId: string, imageId: string) => {
@@ -91,6 +97,17 @@ const FavoritesProvider: React.FC<props> = (props) => {
   React.useEffect(() => {
     if (favoritesData) setFavorites(favoritesData);
   }, [JSON.stringify(favoritesData)]);
+
+  React.useEffect(() => {
+    if (markData) {
+      const favoritesCopy = [...favorites];
+      favoritesCopy.push({
+        id: markData.id,
+        image_id: markData.image_id,
+      });
+      setFavorites(favoritesCopy);
+    }
+  }, [JSON.stringify(markData)]);
 
   const contextValues = {
     favorites,
