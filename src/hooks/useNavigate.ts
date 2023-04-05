@@ -1,7 +1,8 @@
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RouteParams } from '../types/routes'; // Replace with your own types
+import { RouteParams } from '../types/routes';
 import { ROUTE_NAMES } from '../constants/routes';
+
 
 const useCustomNavigation = () => {
   const navigation = useNavigation<NativeStackNavigationProp<RouteParams>>();

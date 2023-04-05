@@ -1,17 +1,17 @@
-import React from "react";
-import { ScrollView, Image, Text, View } from "react-native";
-import { RouteProp, useRoute } from "@react-navigation/native";
+import React from 'react';
+import { View, Text, Image } from 'react-native';
+import { RouteProp, useRoute } from '@react-navigation/native';
 
-import useAPI from "../../hooks/useAPI";
+import useAPI from '../../hooks/useAPI';
 
-import ErrorScreen from "../../components/ErrorScreen";
-import FullScreenLoader from "../../components/FullScreenLoader";
+import ErrorScreen from '../../components/ErrorScreen';
+import FullScreenLoader from '../../components/FullScreenLoader';
 
-import { ROUTE_NAMES } from "../../constants/routes";
+import { ROUTE_NAMES } from '../../constants/routes';
 
-import { RouteParams } from "../../types/routes";
+import { RouteParams } from '../../types/routes';
 
-import styles from "./styles";
+import styles from './styles';
 
 const Listings: React.FC = () => {
   const route = useRoute<RouteProp<RouteParams, ROUTE_NAMES.DETAILS>>();
@@ -19,24 +19,39 @@ const Listings: React.FC = () => {
 
   React.useEffect(() => {
     get(`/images/${route.params.id}/analysis`);
+    console.log(route.params);
   }, [route.params.id]);
 
   if (isLoading) return <FullScreenLoader />;
 
   if (isError) return <ErrorScreen />;
+
+  const { vendor, created_at, image_id, labels } = data?.[0] || {}; // Assuming data structure has title, description, and images properties
+  const uri = route.params.uri;
+  const description =
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempor fringilla semper. In fermentum scelerisque est, in lacinia arcu convallis in. Phasellus pharetra vehicula commodo. ';
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Image source={{ uri: route.params.uri }} style={styles.img} />
-      <View style={styles.labelsContainer}>
-        {Array.isArray(data) && data.length > 0 ? (
-          data?.[0]?.labels?.map((item) => (
-            <Text style={styles.label}>{item.Name}</Text>
-          ))
-        ) : (
-          <Text style={styles.label}>Nothing to display!</Text>
+    <View style={styles.container}>
+      <View style={styles.imageContainer}>
+        <Image source={{ uri }} style={styles.image} />
+      </View>
+      <View style={styles.detailsContainer}>
+        <Text style={styles.title}>{vendor}</Text>
+        <Text style={styles.info}>
+          Created At: {new Date(created_at).toDateString()}
+        </Text>
+        <Text style={styles.description}>{description}</Text>
+        {labels && labels.length > 0 && (
+          <View style={styles.labelContainer}>
+            {labels.map((label, index) => (
+              <Text key={index} style={styles.label}>
+                {label.Name}
+              </Text>
+            ))}
+          </View>
         )}
       </View>
-    </ScrollView>
+    </View>
   );
 };
 
