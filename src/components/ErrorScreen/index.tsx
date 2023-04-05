@@ -7,8 +7,8 @@ const ErrorScreen = () => {
       style={{
         flex: 1,
         display: "flex",
-        justifyContent: "center",
         alignItems: "center",
+        justifyContent: "center",
       }}
     >
       <Text>Ops! Some error occurred</Text>

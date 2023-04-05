@@ -26,13 +26,11 @@ const Home: React.FC = () => {
     <SafeAreaView style={styles.container}>
       <FlatList
         data={data ?? []}
+        style={styles.listPadding}
         renderItem={({ item }: { item: Category }) => (
           <CategoryItem title={item.name} id={item.id} />
         )}
         keyExtractor={(item) => `${item.name}-${item.id}`}
-        style={{
-          paddingHorizontal: 15,
-        }}
       />
     </SafeAreaView>
   );

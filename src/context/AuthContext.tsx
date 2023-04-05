@@ -1,16 +1,18 @@
 import React from "react";
 import * as WebBrowser from "expo-web-browser";
-import * as Google from "expo-auth-session/providers/google";
-import { AuthRequestPromptOptions } from "expo-auth-session/build/AuthRequest.types";
-import { AuthSessionResult } from "expo-auth-session/build/AuthSession.types";
-import { UserInfo } from "../types";
-import { WEB_CLIENT_ID, IOS_CLIENT_ID, ANDROID_CLIENT_ID } from "@env";
+import Toast from "react-native-toast-message";
 import { useNavigation } from "@react-navigation/native";
+import * as Google from "expo-auth-session/providers/google";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AuthSessionResult } from "expo-auth-session/build/AuthSession.types";
+import { AuthRequestPromptOptions } from "expo-auth-session/build/AuthRequest.types";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack/lib/typescript/src/types";
+
+import { WEB_CLIENT_ID, IOS_CLIENT_ID, ANDROID_CLIENT_ID } from "@env";
+
+import { UserInfo } from "../types";
 import { RouteParams } from "../types/routes";
 import { ROUTE_NAMES } from "../constants/routes";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import Toast from "react-native-toast-message";
 
 type AuthContextType = {
   accessToken: string;
@@ -73,7 +75,7 @@ const AuthProvider: React.FC<props> = (props) => {
   const checkLoginState = async () => {
     const accessToken = await AsyncStorage.getItem("accessToken");
     if (accessToken) {
-      await fetchUserInfo(accessToken)
+      await fetchUserInfo(accessToken);
       navigation.navigate(ROUTE_NAMES.HOME);
     } else navigation.navigate(ROUTE_NAMES.LOGIN);
   };

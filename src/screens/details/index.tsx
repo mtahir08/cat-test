@@ -28,10 +28,13 @@ const Listings: React.FC = () => {
     <ScrollView contentContainerStyle={styles.container}>
       <Image source={{ uri: route.params.uri }} style={styles.img} />
       <View style={styles.labelsContainer}>
-        {data &&
-          data[0]?.labels?.map((item) => {
-            return <Text style={styles.label}>{item.Name}</Text>;
-          })}
+        {Array.isArray(data) && data.length > 0 ? (
+          data?.[0]?.labels?.map((item) => (
+            <Text style={styles.label}>{item.Name}</Text>
+          ))
+        ) : (
+          <Text style={styles.label}>Nothing to display!</Text>
+        )}
       </View>
     </ScrollView>
   );

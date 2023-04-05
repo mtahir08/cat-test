@@ -45,9 +45,7 @@ const Listings: React.FC = () => {
   const renderFooter = () => {
     if (isLoading && dataToShow.length) {
       return (
-        <View
-          style={styles.activityIndicator}
-        >
+        <View style={styles.activityIndicator}>
           <ActivityIndicator />
         </View>
       );
@@ -67,12 +65,12 @@ const Listings: React.FC = () => {
   return (
     <FlatList
       data={dataToShow}
-      keyExtractor={(item, index) => `${item?.id?.toString()}-${index}`}
       renderItem={renderItem}
       numColumns={numColumns}
       onEndReached={onEndReached}
-      columnWrapperStyle={styles.container}
       ListFooterComponent={renderFooter}
+      columnWrapperStyle={styles.container}
+      keyExtractor={(item, index) => `${item?.id?.toString()}-${index}`}
     />
   );
 };

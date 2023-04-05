@@ -7,8 +7,8 @@ const FullScreenLoader = () => {
       style={{
         flex: 1,
         display: "flex",
-        justifyContent: "center",
         alignItems: "center",
+        justifyContent: "center",
       }}
     >
       <ActivityIndicator />

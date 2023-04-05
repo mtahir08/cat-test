@@ -16,12 +16,12 @@ type Props = {
 const CategoryItem: React.FC<Props> = ({ title, id }) => {
   const navigation = useNavigation<NativeStackNavigationProp<RouteParams>>();
 
-  const onPress = () => {
+  const onCategoryPress = () => {
     navigation.navigate(ROUTE_NAMES.LISTINGS, { id });
   };
 
   return (
-    <TouchableOpacity style={styles.container} onPress={onPress}>
+    <TouchableOpacity style={styles.container} onPress={onCategoryPress}>
       <Text style={styles.title}>{title}</Text>
     </TouchableOpacity>
   );

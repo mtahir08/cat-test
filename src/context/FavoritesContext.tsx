@@ -1,8 +1,11 @@
 import React from "react";
-import useAPI from "../hooks/useAPI";
-import { Favourite } from "../types";
-import { AuthContext } from "./AuthContext";
 import Toast from "react-native-toast-message";
+
+import { Favourite } from "../types";
+
+import useAPI from "../hooks/useAPI";
+import { AuthContext } from "./AuthContext";
+
 import { RESPONSE_TYPE } from "../constants";
 
 type FavoritesContextType = {
@@ -36,7 +39,7 @@ const FavoritesProvider: React.FC<props> = (props) => {
   const { get: getMarkedFavorites, data: favoritesData } = useAPI();
   const { post: addFavorite, data: markData, isError } = useAPI("/favourites");
   const {
-    delete: deleteFavorite,
+    del: deleteFavorite,
     data: unMarkData,
     isError: isUnMarkError,
   } = useAPI("/favourites/:favourite_id");
@@ -44,13 +47,8 @@ const FavoritesProvider: React.FC<props> = (props) => {
   const markFavourite = (id: string) => {
     addFavorite(
       "/favourites",
-      {
-        image_id: id,
-        sub_id: userInfo.id,
-      },
-      {
-        image_id: id,
-      }
+      { image_id: id, sub_id: userInfo.id },
+      { image_id: id }
     );
   };
 

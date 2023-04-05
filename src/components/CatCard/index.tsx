@@ -5,14 +5,15 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
 import Button from "../Button";
 
-import { shareURL } from "../../services";
+import { shareURL } from "../../services/share";
 
 import { RouteParams } from "../../types/routes";
 
 import { ROUTE_NAMES } from "../../constants/routes";
 
-import styles from "./styles";
 import { FavoritesContext } from "../../context/FavoritesContext";
+
+import styles from "./styles";
 
 type Props = {
   uri: string;
@@ -24,33 +25,32 @@ const CatCard: React.FC<Props> = ({ id, uri }) => {
 
   const { favorites, markFavourite, unmarkFavourite } =
     React.useContext(FavoritesContext);
+
+  const onDetailsPress = () =>
+    navigation.navigate(ROUTE_NAMES.DETAILS, { id, uri });
+
   const isFavoriteIndex = favorites.findIndex(
-    (obj) => obj.image_id === id.toString()
+    (obj) => obj?.image_id === id.toString()
   );
 
-  const onPress = () => {
-    navigation.navigate(ROUTE_NAMES.DETAILS, { id, uri });
-  };
-
-  const onPressUnmarkFavourite = () => {
-    unmarkFavourite(favorites[isFavoriteIndex].id.toString(), id.toString());
-  };
-
-  const onPressMarkFavourite = () => {
-    markFavourite(id.toString());
+  const toggleFavourite = () => {
+    if (isFavoriteIndex > -1) {
+      unmarkFavourite(
+        favorites?.[isFavoriteIndex]?.id.toString(),
+        id.toString()
+      );
+    } else {
+      markFavourite(id.toString());
+    }
   };
 
   return (
-    <TouchableOpacity style={styles.container} onPress={onPress}>
+    <TouchableOpacity style={styles.container} onPress={onDetailsPress}>
       <Image source={{ uri }} style={styles.image} />
       <Button
-        onPress={
-          isFavoriteIndex > -1
-            ? () => onPressUnmarkFavourite()
-            : () => onPressMarkFavourite()
-        }
-        title={`${isFavoriteIndex > -1 ? "Unmark" : "Mark"} as favourite`}
+        onPress={toggleFavourite}
         containerStyles={styles.btn}
+        title={`${isFavoriteIndex > -1 ? "Unmark" : "Mark"} as favourite`}
       />
       <Button
         title="Share"

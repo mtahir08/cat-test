@@ -44,7 +44,7 @@ const useAPI = (headers = {}) => {
     setIsLoading(false);
   };
 
-  const deleteRecord = async (endpoint, body = undefined) => {
+  const del = async (endpoint, body = undefined) => {
     setIsLoading(true);
     try {
       const response = await fetch(`${BASE_URL}${endpoint}`, {
@@ -62,11 +62,11 @@ const useAPI = (headers = {}) => {
 
   return {
     get,
+    del,
     post,
     data,
-    isLoading,
     isError,
-    delete: deleteRecord,
+    isLoading,
     headers: responseHeaders,
   };
 };
