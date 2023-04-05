@@ -13,12 +13,12 @@ import styles from "./styles";
 WebBrowser.maybeCompleteAuthSession();
 
 const Login: React.FC = () => {
-  const { onLogin } = React.useContext(AuthContext);
+  const { onLogin, login } = React.useContext(AuthContext);
   const [isLoggingIn, setIsLoggingIn] = React.useState(false);
 
   const onPressLogin = async () => {
     setIsLoggingIn(true);
-    await onLogin();
+    await login();
     setIsLoggingIn(false);
   };
 
