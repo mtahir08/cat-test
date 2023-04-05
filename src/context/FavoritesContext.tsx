@@ -54,7 +54,7 @@ const FavoritesProvider: React.FC<props> = (props) => {
       sub_id: userInfo.id,
     });
     const favoritesCopy = [...favorites];
-    const index = favorites.findIndex((obj) => obj.image_id === favoriteId);
+    const index = favorites.findIndex((obj) => obj.image_id === imageId);
     favoritesCopy.splice(index, 1);
     setFavorites(favoritesCopy);
   };
