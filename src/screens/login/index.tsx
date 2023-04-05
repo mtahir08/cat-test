@@ -1,14 +1,14 @@
-import React from "react";
-import { View, Image } from "react-native";
-import * as WebBrowser from "expo-web-browser";
+import React from 'react';
+import { View, Image } from 'react-native';
+import * as WebBrowser from 'expo-web-browser';
 
-import Cat from "../../assets/cat-login.png";
+import Cat from '../../assets/cat-login.png';
 
-import Button from "../../components/Button";
+import Button from '../../components/Button';
 
-import { AuthContext } from "../../context/AuthContext";
+import { AuthContext } from '../../context/AuthContext';
 
-import styles from "./styles";
+import styles from './styles';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -24,12 +24,20 @@ const Login: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <Image source={Cat} style={styles.image} />
+      <Image
+        source={Cat}
+        style={styles.image}
+        accessible={true}
+        accessibilityLabel='Cat Image'
+        accessibilityHint='An image of a cat with a login form'
+      />
       <Button
-        title="LOGIN OR SIGNUP"
+        title='LOGIN OR SIGNUP'
         onPress={onPressLogin}
         disabled={isLoggingIn}
         containerStyles={styles.loginBtn}
+        accessibilityLabel='Login Button'
+        accessibilityHint='Press to log in to the application'
       />
     </View>
   );
