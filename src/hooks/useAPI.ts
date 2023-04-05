@@ -42,7 +42,23 @@ const useAPI = (headers = {}) => {
     setIsLoading(false);
   };
 
-  return { get, post, data, isLoading, isError };
+  const deleteRecord = async (endpoint, body = undefined) => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(`${BASE_URL}${endpoint}`, {
+        ...requestOptions,
+        method: "DELETE",
+        body: body ?? JSON.stringify(body),
+      });
+      const result = await response.json();
+      setData(result);
+    } catch (error) {
+      setIsError(true);
+    }
+    setIsLoading(false);
+  };
+
+  return { get, post, data, isLoading, isError, delete: deleteRecord };
 };
 
 export default useAPI;

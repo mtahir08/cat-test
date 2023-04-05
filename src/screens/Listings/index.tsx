@@ -19,7 +19,7 @@ const Listings: React.FC = () => {
   const { get, data, isLoading, isError } = useAPI();
 
   React.useEffect(() => {
-    get(`/images/search/?limit=10&category_ids=${route.params.id}`);
+    get(`/images/search/?limit=10&category_ids=${route.params.id}&order=ASC`);
   }, [route.params.id]);
 
   if (isLoading) return <FullScreenLoader />;
