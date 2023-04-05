@@ -2,10 +2,8 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-around",
+    display: "flex",
+    justifyContent: "center",
   },
   heading: {
     textAlign: "center",
@@ -15,6 +13,11 @@ const styles = StyleSheet.create({
   list: {
     justifyContent: "center",
     alignItems: "center",
+  },
+  activityIndicator: {
+    paddingVertical: 20,
+    display: "flex",
+    justifyContent: "center",
   },
 });
 

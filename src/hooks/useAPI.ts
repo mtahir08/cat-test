@@ -5,6 +5,7 @@ const useAPI = (headers = {}) => {
   const [data, setData] = useState(null);
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [responseHeaders, setResponseHeaders] = useState(null);
 
   const requestOptions = {
     headers: {
@@ -19,6 +20,7 @@ const useAPI = (headers = {}) => {
     try {
       const response = await fetch(`${BASE_URL}${endpoint}`, requestOptions);
       const result = await response.json();
+      setResponseHeaders(response.headers);
       setData(result);
     } catch (error) {
       setIsError(true);
@@ -58,7 +60,15 @@ const useAPI = (headers = {}) => {
     setIsLoading(false);
   };
 
-  return { get, post, data, isLoading, isError, delete: deleteRecord };
+  return {
+    get,
+    post,
+    data,
+    isLoading,
+    isError,
+    delete: deleteRecord,
+    headers: responseHeaders,
+  };
 };
 
 export default useAPI;

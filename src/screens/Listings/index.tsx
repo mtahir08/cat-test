@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView } from "react-native";
+import { ActivityIndicator, FlatList, View } from "react-native";
 import { RouteProp, useRoute } from "@react-navigation/native";
 
 import useAPI from "../../hooks/useAPI";
@@ -16,22 +16,64 @@ import styles from "./styles";
 
 const Listings: React.FC = () => {
   const route = useRoute<RouteProp<RouteParams, ROUTE_NAMES.LISTINGS>>();
-  const { get, data, isLoading, isError } = useAPI();
+  const { get, data, isLoading, isError, headers } = useAPI();
+  const [paginationCount, setPaginationCount] = React.useState(0);
+  const [currentPage, setCurrentPage] = React.useState(0);
+  const [dataToShow, setDataToShow] = React.useState([]);
 
   React.useEffect(() => {
-    get(`/images/search/?limit=10&category_ids=${route.params.id}&order=ASC`);
-  }, [route.params.id]);
+    if (!isLoading)
+      get(
+        `/images/search/?limit=10&category_ids=${route.params.id}&order=ASC&page=${currentPage}`
+      );
+  }, [route.params.id, currentPage]);
 
-  if (isLoading) return <FullScreenLoader />;
+  React.useEffect(() => {
+    setPaginationCount(headers?.map["pagination-count"]);
+  }, [headers]);
+
+  React.useEffect(() => {
+    if (data?.length) {
+      setDataToShow([...dataToShow, ...data]);
+    }
+  }, [JSON.stringify(data)]);
+
+  const renderItem = ({ item }) => (
+    <CatCard uri={item.url} id={item?.id} key={item.id} />
+  );
+
+  const renderFooter = () => {
+    if (isLoading && dataToShow.length) {
+      return (
+        <View
+          style={styles.activityIndicator}
+        >
+          <ActivityIndicator />
+        </View>
+      );
+    }
+  };
+
+  const onEndReached = () => {
+    if (currentPage < paginationCount) setCurrentPage(currentPage + 1);
+  };
+
+  const numColumns = 2;
+
+  if (isLoading && !dataToShow.length) return <FullScreenLoader />;
 
   if (isError) return <ErrorScreen />;
 
   return (
-    <ScrollView style={{ flex: 1 }} contentContainerStyle={styles.container}>
-      {data?.map((item) => (
-        <CatCard uri={item.url} id={item?.id} key={item.id} />
-      ))}
-    </ScrollView>
+    <FlatList
+      data={dataToShow}
+      keyExtractor={(item, index) => `${item?.id?.toString()}-${index}`}
+      renderItem={renderItem}
+      numColumns={numColumns}
+      onEndReached={onEndReached}
+      columnWrapperStyle={styles.container}
+      ListFooterComponent={renderFooter}
+    />
   );
 };
 
