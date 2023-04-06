@@ -10,8 +10,8 @@ const styles = StyleSheet.create({
     fontSize: 24,
     marginBottom: 15,
   },
-  listPadding: {
-    paddingHorizontal: 15,
+  flatListContainer: {
+    paddingHorizontal: 10,
   },
 });
 

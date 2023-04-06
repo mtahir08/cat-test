@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, Text } from 'react-native';
+import { TouchableOpacity, Text, View } from 'react-native';
 
 import { ROUTE_NAMES } from '../../constants/routes';
 
@@ -26,7 +26,9 @@ const CategoryItem: React.FC<Props> = ({ title, id }) => {
       accessibilityLabel={title}
       accessibilityHint='Press click category'
     >
-      <Text style={styles.title}>{title}</Text>
+      <View style={styles.card}>
+        <Text style={styles.title}>{title}</Text>
+      </View>
     </TouchableOpacity>
   );
 };

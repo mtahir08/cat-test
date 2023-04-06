@@ -1,19 +1,16 @@
-import React from "react";
-import { TouchableOpacity, Image } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import React from 'react';
+import { TouchableOpacity, Image } from 'react-native';
 
-import Button from "../Button";
+import Button from '../Button';
 
-import { shareURL } from "../../services/share";
+import { shareURL } from '../../services/share';
 
-import { RouteParams } from "../../types/routes";
+import { ROUTE_NAMES } from '../../constants/routes';
 
-import { ROUTE_NAMES } from "../../constants/routes";
+import { FavoritesContext } from '../../context/FavoritesContext';
+import useCustomNavigation from '../../hooks/useNavigate';
 
-import { FavoritesContext } from "../../context/FavoritesContext";
-
-import styles from "./styles";
+import styles from './styles';
 
 type Props = {
   uri: string;
@@ -21,13 +18,12 @@ type Props = {
 };
 
 const CatCard: React.FC<Props> = ({ id, uri }) => {
-  const navigation = useNavigation<NativeStackNavigationProp<RouteParams>>();
+  const { navigate } = useCustomNavigation();
 
   const { favorites, markFavourite, unmarkFavourite } =
     React.useContext(FavoritesContext);
 
-  const onDetailsPress = () =>
-    navigation.navigate(ROUTE_NAMES.DETAILS, { id, uri });
+  const onDetailsPress = () => navigate(ROUTE_NAMES.DETAILS, { id, uri });
 
   const isFavoriteIndex = favorites.findIndex(
     (obj) => obj?.image_id === id.toString()
@@ -36,7 +32,7 @@ const CatCard: React.FC<Props> = ({ id, uri }) => {
   const toggleFavourite = () => {
     if (isFavoriteIndex > -1) {
       unmarkFavourite(
-        favorites?.[isFavoriteIndex]?.id.toString(),
+        favorites?.[isFavoriteIndex]?.id?.toString(),
         id.toString()
       );
     } else {
@@ -50,11 +46,11 @@ const CatCard: React.FC<Props> = ({ id, uri }) => {
       <Button
         onPress={toggleFavourite}
         containerStyles={styles.btn}
-        title={`${isFavoriteIndex > -1 ? "Unmark" : "Mark"} as favourite`}
+        title={`${isFavoriteIndex > -1 ? 'Unmark' : 'Mark'} as favourite`}
       />
       <Button
-        title="Share"
-        type="secondary"
+        title='Share'
+        type='secondary'
         onPress={() => shareURL(uri)}
         containerStyles={styles.btn}
       />
