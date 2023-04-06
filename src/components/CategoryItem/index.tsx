@@ -1,27 +1,34 @@
-import { useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import React from "react";
-import { TouchableOpacity, Text } from "react-native";
-import { AUTH_ROUTE_NAMES } from "../../constants/routes";
-import { RouteParams } from "../../types/routes";
-import styles from "./styles";
+import React from 'react';
+import { TouchableOpacity, Text, View } from 'react-native';
+
+import { ROUTE_NAMES } from '../../constants/routes';
+
+import styles from './styles';
+import useCustomNavigation from '../../hooks/useNavigate';
 
 type Props = {
-  title: string;
   id: number;
+  title: string;
 };
 
 const CategoryItem: React.FC<Props> = ({ title, id }) => {
-  const navigation = useNavigation<NativeStackNavigationProp<RouteParams>>();
+  const { navigate } = useCustomNavigation();
+
   const onPress = () => {
-    navigation.navigate(AUTH_ROUTE_NAMES.LISTINGS, {
-      id,
-    });
+    navigate(ROUTE_NAMES.LISTINGS, { id });
   };
 
   return (
-    <TouchableOpacity style={styles.container} onPress={onPress}>
-      <Text style={styles.title}>{title}</Text>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={onPress}
+      accessibilityRole='button'
+      accessibilityLabel={title}
+      accessibilityHint='Press click category'
+    >
+      <View style={styles.card}>
+        <Text style={styles.title}>{title}</Text>
+      </View>
     </TouchableOpacity>
   );
 };

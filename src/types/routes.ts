@@ -1,8 +1,8 @@
-import { AUTH_ROUTE_NAMES } from "../constants/routes";
+import { ROUTE_NAMES } from "../constants/routes";
 
 export type RouteParams = {
-  [AUTH_ROUTE_NAMES.HOME]?: undefined;
-  [AUTH_ROUTE_NAMES.LISTINGS]: {
-    id: number;
-  };
+  [ROUTE_NAMES.HOME]?: undefined;
+  [ROUTE_NAMES.LOGIN]?: undefined;
+  [ROUTE_NAMES.LISTINGS]: { id: number };
+  [ROUTE_NAMES.DETAILS]: { id: number; uri: string };
 };

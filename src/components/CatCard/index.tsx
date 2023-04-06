@@ -1,59 +1,48 @@
-import React from "react";
-import * as Sharing from "expo-sharing";
-import { View, Image } from "react-native";
+import React from 'react';
+import { TouchableOpacity } from 'react-native';
+import { Image } from 'expo-image';
 
-import useAPI from "../../hooks/useAPI";
+import { ROUTE_NAMES } from '../../constants/routes';
 
-import Button from "../Button";
-import ErrorScreen from "../ErrorScreen";
-import FullScreenLoader from "../FullScreenLoader";
+import { FavoritesContext } from '../../context/FavoritesContext';
+import useCustomNavigation from '../../hooks/useNavigate';
 
-import styles from "./styles";
+import styles from './styles';
+import CardButtons from './CardButtons';
 
 type Props = {
   uri: string;
-  id: string;
+  id: number;
 };
 
 const CatCard: React.FC<Props> = ({ id, uri }) => {
-  const { post, data, isLoading, isError } = useAPI("/favourites");
+  const { navigate } = useCustomNavigation();
 
-  const markFavourite = React.useCallback(() => {
-    post("/favourites", {
-      image_id: id,
-      sub_id: "my-user-1234",
-    });
-  }, [data, isLoading, isError]);
+  const { favorites, markFavourite, unmarkFavourite } =
+    React.useContext(FavoritesContext);
 
-  const shareUrl = async () => {
-    Sharing.shareAsync(uri)
-      .then((result) => {
-        console.log({ result });
-      })
-      .catch((error) => {
-        console.error({ error });
-      });
+  const onDetailsPress = () => navigate(ROUTE_NAMES.DETAILS, { id, uri });
+
+  const isFavoriteIndex = favorites.findIndex(
+    (obj) => obj?.image_id === id.toString()
+  );
+
+  const toggleFavourite = () => {
+    if (isFavoriteIndex > -1) {
+      unmarkFavourite(
+        favorites?.[isFavoriteIndex]?.id?.toString(),
+        id.toString()
+      );
+    } else {
+      markFavourite(id.toString());
+    }
   };
 
-  if (isLoading) return <FullScreenLoader />;
-
-  if (isError) return <ErrorScreen />;
-
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onDetailsPress}>
       <Image source={{ uri }} style={styles.image} />
-      <Button
-        onPress={markFavourite}
-        title="Mark as favourite"
-        containerStyles={styles.btn}
-      />
-      <Button
-        title="Share"
-        type="secondary"
-        onPress={shareUrl}
-        containerStyles={styles.btn}
-      />
-    </View>
+      <CardButtons id={id} uri={uri} />
+    </TouchableOpacity>
   );
 };
 

@@ -1,32 +1,44 @@
-import React from "react";
-import { View, Image } from "react-native";
-import Cat from "../../assets/cat-login.png";
-import Button from "../../components/Button";
-import styles from "./styles";
-import { useNavigation } from "@react-navigation/native";
-import { AUTH_ROUTE_NAMES } from "../../constants/routes";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RouteParams } from "../../types/routes";
+import React from 'react';
+import { View } from 'react-native';
+import * as WebBrowser from 'expo-web-browser';
+import { Image } from 'expo-image';
+
+import Cat from '../../assets/cat-login.png';
+
+import Button from '../../components/Button';
+
+import { AuthContext } from '../../context/AuthContext';
+
+import styles from './styles';
+
+WebBrowser.maybeCompleteAuthSession();
 
 const Login: React.FC = () => {
-  const navigation = useNavigation<NativeStackNavigationProp<RouteParams>>();
-  const onPressLogin = () => {
-    navigation.navigate(AUTH_ROUTE_NAMES.HOME);
+  const { onLogin } = React.useContext(AuthContext);
+  const [isLoggingIn, setIsLoggingIn] = React.useState(false);
+
+  const onPressLogin = async () => {
+    setIsLoggingIn(true);
+    await onLogin();
+    setIsLoggingIn(false);
   };
 
   return (
     <View style={styles.container}>
-      <Image source={Cat} style={styles.image} />
-      <Button
-        title="LOGIN"
-        onPress={onPressLogin}
-        containerStyles={styles.loginBtn}
+      <Image
+        source={Cat}
+        style={styles.image}
+        accessible={true}
+        accessibilityLabel='Cat Image'
+        accessibilityHint='An image of a cat with a login form'
       />
       <Button
-        title="SIGNUP"
-        onPress={() => {}}
-        type="secondary"
-        containerStyles={styles.signupBtn}
+        title='LOGIN OR SIGNUP'
+        onPress={onPressLogin}
+        disabled={isLoggingIn}
+        containerStyles={styles.loginBtn}
+        accessibilityLabel='Login Button'
+        accessibilityHint='Press to log in to the application'
       />
     </View>
   );

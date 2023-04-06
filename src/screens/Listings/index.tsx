@@ -1,36 +1,55 @@
-import React from "react";
-import { ScrollView } from "react-native";
-import { RouteProp, useRoute } from "@react-navigation/native";
+import React from 'react';
+import { ActivityIndicator, FlatList, View } from 'react-native';
+import { RouteProp, useRoute } from '@react-navigation/native';
 
-import useAPI from "../../hooks/useAPI";
+import useListings from '../../hooks/useListings';
 
-import CatDetails from "../../components/CatCard";
-import ErrorScreen from "../../components/ErrorScreen";
-import { AUTH_ROUTE_NAMES } from "../../constants/routes";
-import FullScreenLoader from "../../components/FullScreenLoader";
+import CatCard from '../../components/CatCard';
+import ErrorScreen from '../../components/ErrorScreen';
+import FullScreenLoader from '../../components/FullScreenLoader';
 
-import { RouteParams } from "../../types/routes";
+import { ROUTE_NAMES } from '../../constants/routes';
 
-import styles from "./styles";
+import { RouteParams } from '../../types/routes';
+
+import styles from './styles';
+const numColumns = 2;
 
 const Listings: React.FC = () => {
-  const route = useRoute<RouteProp<RouteParams, AUTH_ROUTE_NAMES.LISTINGS>>();
-  const { get, data, isLoading, isError } = useAPI();
+  const route = useRoute<RouteProp<RouteParams, ROUTE_NAMES.LISTINGS>>();
 
-  React.useEffect(() => {
-    get(`/images/search/?limit=10&category_ids=${route.params.id}`);
-  }, [route]);
+  const { dataToShow, isLoading, isError, onEndReached } = useListings(
+    route.params.id
+  );
 
-  if (isLoading) return <FullScreenLoader />;
+  const renderItem = ({ item }) => (
+    <CatCard uri={item.url} id={item?.id} key={item.id} />
+  );
+
+  const renderFooter = () => {
+    if (isLoading && dataToShow.length) {
+      return (
+        <View style={styles.activityIndicator}>
+          <ActivityIndicator />
+        </View>
+      );
+    }
+  };
+
+  if (isLoading && !dataToShow.length) return <FullScreenLoader />;
 
   if (isError) return <ErrorScreen />;
 
   return (
-    <ScrollView style={{ flex: 1 }} contentContainerStyle={styles.container}>
-      {data?.map((item) => (
-        <CatDetails uri={item.url} id={item?.id} key={item.id} />
-      ))}
-    </ScrollView>
+    <FlatList
+      data={dataToShow}
+      renderItem={renderItem}
+      numColumns={numColumns}
+      onEndReached={onEndReached}
+      ListFooterComponent={renderFooter}
+      columnWrapperStyle={styles.container}
+      keyExtractor={(item, index) => `${item?.id?.toString()}-${index}`}
+    />
   );
 };
 
