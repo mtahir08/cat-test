@@ -19,14 +19,12 @@ type AuthContextType = {
   onLogin: (
     options?: AuthRequestPromptOptions
   ) => Promise<AuthSessionResult | void>;
-  login: (options?: AuthRequestPromptOptions) => void;
 };
 
 const DEFAULT_CONTEXT = {
   userInfo: null,
   accessToken: '',
   onLogin: async () => {},
-  login: () => {},
 };
 
 type props = {
@@ -74,10 +72,6 @@ const AuthProvider: React.FC<props> = (props) => {
     }
   };
 
-  const login = () => {
-    navigate(ROUTE_NAMES.HOME);
-  };
-
   const checkLoginState = async () => {
     const accessToken = await AsyncStorage.getItem('accessToken');
     if (accessToken) {
@@ -100,7 +94,6 @@ const AuthProvider: React.FC<props> = (props) => {
 
   const contextValues = {
     onLogin,
-    login,
     userInfo,
     accessToken,
   };
