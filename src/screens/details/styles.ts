@@ -22,21 +22,21 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   detailsContainer: {
-    padding: 16,
+    paddingHorizontal: 16,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 8,
+    marginVertical: 6,
     color: '#333',
   },
   description: {
-    fontSize: 16,
+    fontSize: 14,
     color: '#666',
     marginBottom: 16,
   },
   info: {
-    fontSize: 16,
+    fontSize: 12,
     color: '#666',
     marginBottom: 8,
   },
@@ -46,23 +46,24 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   label: {
-    fontSize: 14,
-    marginRight: 8,
-    marginBottom: 4,
-    padding: 4,
-    backgroundColor: '#eee',
-    borderRadius: 4,
-  },
-  img: {
-    width: 200,
-    height: 200,
-  },
-  label: {
-    marginTop: 3,
-    backgroundColor: "#EFE9AE",
+    backgroundColor: '#EFE9AE',
     marginRight: 5,
     padding: 5,
-    borderRadius: 3,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 16,
+    marginBottom: 8,
+    fontSize: 12,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginHorizontal: 16,
+  },
+  btn: {
+    flex: 1,
+    marginHorizontal: 8,
   },
 });
 export default styles;

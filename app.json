@@ -4,10 +4,10 @@
     "slug": "cat-api",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/assets/icon.png",
+    "icon": "./src/assets/cat-login.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./src/assets/splash.png",
+      "image": "./src/assets/cat-login.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -19,14 +19,24 @@
       "bundleIdentifier": "com.cat-api"
     },
     "android": {
-      "package": "com.cat-api",
+      "package": "com.mtahir08.catapi",
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
+      },
+      "config": {
+        "googleSignIn": {
+          "expoClientId": "621280126459-rpo4lp5cjfmmin4gvtcsi0vhmk3cslrn.apps.googleusercontent.com"
+        }
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/cat-login.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "db4af206-b5c3-42df-b857-614b31129da4"
+      }
     }
   }
 }

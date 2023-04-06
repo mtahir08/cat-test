@@ -13,13 +13,15 @@ import { RouteParams } from '../../types/routes';
 
 import styles from './styles';
 
-const Listings: React.FC = () => {
+import { dummyDescription } from '../../constants';
+import CardButtons from '../../components/CatCard/CardButtons';
+
+const Details: React.FC = () => {
   const route = useRoute<RouteProp<RouteParams, ROUTE_NAMES.DETAILS>>();
   const { get, data, isLoading, isError } = useAPI();
 
   React.useEffect(() => {
     get(`/images/${route.params.id}/analysis`);
-    console.log(route.params);
   }, [route.params.id]);
 
   if (isLoading) return <FullScreenLoader />;
@@ -28,8 +30,7 @@ const Listings: React.FC = () => {
 
   const { vendor, created_at, image_id, labels } = data?.[0] || {}; // Assuming data structure has title, description, and images properties
   const uri = route.params.uri;
-  const description =
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempor fringilla semper. In fermentum scelerisque est, in lacinia arcu convallis in. Phasellus pharetra vehicula commodo. ';
+  const description = dummyDescription;
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
@@ -51,8 +52,14 @@ const Listings: React.FC = () => {
           </View>
         )}
       </View>
+      <CardButtons
+        id={route.params?.id}
+        uri={uri}
+        containerStyles={styles.buttonContainer}
+        btnStyles={styles.btn}
+      />
     </View>
   );
 };
 
-export default Listings;
+export default Details;

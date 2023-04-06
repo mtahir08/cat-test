@@ -1,16 +1,13 @@
 import React from 'react';
 import { TouchableOpacity, Image } from 'react-native';
 
-import Button from '../Button';
-
-import { shareURL } from '../../services/share';
-
 import { ROUTE_NAMES } from '../../constants/routes';
 
 import { FavoritesContext } from '../../context/FavoritesContext';
 import useCustomNavigation from '../../hooks/useNavigate';
 
 import styles from './styles';
+import CardButtons from './CardButtons';
 
 type Props = {
   uri: string;
@@ -43,17 +40,7 @@ const CatCard: React.FC<Props> = ({ id, uri }) => {
   return (
     <TouchableOpacity style={styles.container} onPress={onDetailsPress}>
       <Image source={{ uri }} style={styles.image} />
-      <Button
-        onPress={toggleFavourite}
-        containerStyles={styles.btn}
-        title={`${isFavoriteIndex > -1 ? 'Unmark' : 'Mark'} as favourite`}
-      />
-      <Button
-        title='Share'
-        type='secondary'
-        onPress={() => shareURL(uri)}
-        containerStyles={styles.btn}
-      />
+      <CardButtons id={id} uri={uri} />
     </TouchableOpacity>
   );
 };

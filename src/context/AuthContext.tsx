@@ -1,17 +1,17 @@
-import React from "react";
-import * as WebBrowser from "expo-web-browser";
-import Toast from "react-native-toast-message";
+import React from 'react';
+import * as WebBrowser from 'expo-web-browser';
+import Toast from 'react-native-toast-message';
+import * as Google from 'expo-auth-session/providers/google';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AuthSessionResult } from 'expo-auth-session/build/AuthSession.types';
+import { AuthRequestPromptOptions } from 'expo-auth-session/build/AuthRequest.types';
 
-import * as Google from "expo-auth-session/providers/google";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { AuthSessionResult } from "expo-auth-session/build/AuthSession.types";
-import { AuthRequestPromptOptions } from "expo-auth-session/build/AuthRequest.types";
+import { WEB_CLIENT_ID, IOS_CLIENT_ID, ANDROID_CLIENT_ID } from '@env';
 
-import { WEB_CLIENT_ID, IOS_CLIENT_ID, ANDROID_CLIENT_ID } from "@env";
-
-import { UserInfo } from "../types";
-import { ROUTE_NAMES } from "../constants/routes";
-import useCustomNavigation from "../hooks/useNavigate";
+import { UserInfo } from '../types';
+import { ROUTE_NAMES } from '../constants/routes';
+import { loggedInUser } from '../constants/api';
+import useCustomNavigation from '../hooks/useNavigate';
 
 type AuthContextType = {
   accessToken: string;
@@ -32,7 +32,6 @@ const DEFAULT_CONTEXT = {
 type props = {
   children:
     | boolean
-    | React.ReactChild
     | React.ReactFragment
     | React.ReactPortal
     | null
@@ -49,7 +48,6 @@ const AuthProvider: React.FC<props> = (props) => {
   const { navigate } = useCustomNavigation();
 
   const [_request, loginResponse, onLogin] = Google.useAuthRequest({
-    // expoClientId:WEB_CLIENT_ID,
     clientId: WEB_CLIENT_ID,
     iosClientId: IOS_CLIENT_ID,
     androidClientId: ANDROID_CLIENT_ID,
@@ -59,7 +57,7 @@ const AuthProvider: React.FC<props> = (props) => {
 
   const fetchUserInfo = async (token: string) => {
     try {
-      const res = await fetch('https://www.googleapis.com/userinfo/v2/me', {
+      const res = await fetch(loggedInUser, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -84,18 +82,15 @@ const AuthProvider: React.FC<props> = (props) => {
     const accessToken = await AsyncStorage.getItem('accessToken');
     if (accessToken) {
       await fetchUserInfo(accessToken);
-      navigate(ROUTE_NAMES.HOME);
     } else navigate(ROUTE_NAMES.LOGIN);
   };
 
   React.useEffect(() => {
     if (loginResponse?.type === 'success') {
-      fetchUserInfo(loginResponse.authentication?.accessToken);
-      setAccessToken(loginResponse.authentication?.accessToken);
-      AsyncStorage.setItem(
-        'accessToken',
-        loginResponse.authentication?.accessToken
-      );
+      const token = loginResponse.authentication?.accessToken;
+      fetchUserInfo(token);
+      setAccessToken(token);
+      AsyncStorage.setItem('accessToken', token);
     }
   }, [loginResponse]);
 
