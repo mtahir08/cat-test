@@ -29,8 +29,10 @@ const Listings: React.FC = () => {
       <Image source={{ uri: route.params.uri }} style={styles.img} />
       <View style={styles.labelsContainer}>
         {Array.isArray(data) && data.length > 0 ? (
-          data?.[0]?.labels?.map((item) => (
-            <Text style={styles.label}>{item.Name}</Text>
+          data?.[0]?.labels?.map((item, index) => (
+            <Text style={styles.label} key={index}>
+              {item.Name}
+            </Text>
           ))
         ) : (
           <Text style={styles.label}>Nothing to display!</Text>
