@@ -1,5 +1,6 @@
 import React from 'react';
-import { TouchableOpacity, Image } from 'react-native';
+import { TouchableOpacity } from 'react-native';
+import { Image } from 'expo-image';
 
 import { ROUTE_NAMES } from '../../constants/routes';
 

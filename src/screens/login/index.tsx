@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Image } from 'react-native';
+import { View } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
+import { Image } from 'expo-image';
 
 import Cat from '../../assets/cat-login.png';
 

@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text } from 'react-native';
 import { RouteProp, useRoute } from '@react-navigation/native';
+import { Image } from 'expo-image';
 
 import useAPI from '../../hooks/useAPI';
 
